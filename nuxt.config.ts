@@ -1,5 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@nuxt/content", "@nuxthq/studio"]
+  nitro: {
+    preset: 'cloudflare-pages'
+  },
+  modules: ["@nuxt/content", "@nuxthq/studio", "@nuxt/image", "@nuxtjs/tailwindcss"]
 })
