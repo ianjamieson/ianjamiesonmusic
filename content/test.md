@@ -1,1 +1,5 @@
+---
+cat: test
+---
+
 # Test page

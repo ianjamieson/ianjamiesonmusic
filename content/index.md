@@ -1,8 +1,12 @@
+---
+cat: test
+---
+
 Ian jamieso
 
 #### asdfa
 
-::exampl
+::example
 #left
 hi
 

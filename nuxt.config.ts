@@ -4,5 +4,10 @@ export default defineNuxtConfig({
   nitro: {
     preset: 'cloudflare-pages'
   },
-  modules: ["@nuxt/content", "@nuxthq/studio", "@nuxt/image", "@nuxtjs/tailwindcss"]
+  modules: [
+    // "@nuxt/content",
+    // "@nuxthq/studio",
+    "@nuxt/image",
+    "@nuxtjs/tailwindcss"
+  ]
 })
