@@ -1,5 +1,5 @@
 <template>
-    <div class="flex">
+    <div class="flex space-x-3">
         <div>
             <slot name="left" />
         </div>
