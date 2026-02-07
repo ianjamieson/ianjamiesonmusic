@@ -16,15 +16,18 @@
                     <p class="text-center text-sm font-semibold uppercase tracking-[0.2em] text-white/80">
                         Ian Jamieson - Vinyl EP
                     </p>
-                    <div class="relative inline-block">
+                    <a
+                        href="https://elasticstage.com/ian-jamieson/releases/ep-singleep"
+                        class="group relative inline-block"
+                        aria-label="Buy Ian Jamieson Vinyl EP"
+                    >
                         <img src="/ianjamieson-vinyl-ep.png" alt="Ian Jamieson Vinyl EP" />
-                        <a
-                            href="https://elasticstage.com/ian-jamieson/releases/ep-singleep"
-                            class="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white/90 px-6 py-2 text-sm font-semibold text-black shadow-lg backdrop-blur transition hover:bg-white"
+                        <span
+                            class="absolute bottom-4 left-1/2 inline-flex -translate-x-1/2 items-center justify-center rounded-full bg-white/90 px-6 py-2 text-sm font-semibold text-black shadow-lg backdrop-blur transition group-hover:bg-white"
                         >
                             Buy now
-                        </a>
-                    </div>
+                        </span>
+                    </a>
                 </div>
 
                 <div class="flex justify-center">
