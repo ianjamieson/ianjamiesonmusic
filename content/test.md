@@ -1,5 +1,0 @@
----
-cat: test
----
-
-# Test page

@@ -1,75 +1,49 @@
-# Nuxt 3 Minimal Starter
+# ianjamiesonmusic.co.uk
 
-Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+Nuxt 4 site for Ian Jamieson - music, live dates, guitar lessons.
+Statically generated and deployed to Cloudflare Pages.
 
-## Setup
-
-Make sure to install the dependencies:
+## Develop
 
 ```bash
-# npm
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
+npm run dev          # http://localhost:3000
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+## Build and deploy
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
-pnpm run dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
+npm run generate     # static output into dist/
+npm run deploy       # generate, then wrangler pages deploy
 ```
 
-## Production
+`build` and `generate` both run `nuxt generate`. The site is fully static - there is
+no Cloudflare Worker. Do not switch back to plain `nuxt build`: it emits a worker
+that fails to boot, which turns every unknown URL into a 500 instead of a 404.
 
-Build the application for production:
+If a build looks stale or behaves oddly, clear the caches first:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
-pnpm run build
-
-# yarn
-yarn build
-
-# bun
-bun run build
+trash dist .output node_modules/.cache && npm run generate
 ```
 
-Locally preview production build:
+## Where things live
 
-```bash
-# npm
-npm run preview
+| What | Where |
+| --- | --- |
+| Site-wide settings, IDs and tokens | `app/utils/site.js` |
+| Header, nav and footer shell | `app/layouts/default.vue` |
+| Pages | `app/pages/` |
+| Prerendered 404 | `app/pages/404.vue` (written to `dist/404.html`) |
+| Runtime error page | `app/error.vue` |
+| Scroll fade-in wrapper | `app/components/FadeIn.vue` |
 
-# pnpm
-pnpm run preview
+`app/utils/site.js` is the only file you should need for routine changes. Anything
+still marked `TODO` in there needs a real value.
 
-# yarn
-yarn preview
+## Third-party pieces
 
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+- **Cal.com** - lesson booking, free plan. Set `calLink`.
+- **Bandsintown** - live dates widget. Set `bandsintownArtist`.
+- **EmailOctopus** - mailing list. Set `emailOctopusListId`.
+- **Cloudflare Web Analytics** - set `cloudflareAnalyticsToken`, or leave blank for no script.
