@@ -33,7 +33,6 @@ trash dist .output node_modules/.cache && npm run generate
 | --- | --- |
 | Site-wide settings, IDs and tokens | `app/utils/site.js` |
 | Upcoming shows snapshot | `app/data/upcoming-shows.js` |
-| Bandsintown fetch | `app/data/bandsintown.js` |
 | Header, nav and footer shell | `app/layouts/default.vue` |
 | Pages | `app/pages/` |
 | Prerendered 404 | `app/pages/404.vue` (written to `dist/404.html`) |
@@ -45,22 +44,17 @@ still marked `TODO` in there needs a real value.
 
 ## Upcoming shows
 
-Hand-checked dates live in `app/data/upcoming-shows.js`. That file is a snapshot
-of the Notion "Music Leads" rows worth publishing (Status = Booked, Type =
-Festival or Gig). Notion itself is not fetched.
+Dates live in `app/data/upcoming-shows.js`. That file is a snapshot of the
+Notion "Music Leads" rows worth publishing (Status = Booked, Type = Festival
+or Gig). It is not a live fetch: a static build has no Notion secret, and a
+row can be checked before it goes on the site. Bandsintown is not a source.
+The snapshot includes dates that are not listed there.
 
-When the site is generated it also requests Ian's upcoming events from the
-Bandsintown API (`app/data/bandsintown.js`, artist id in `app/utils/site.js`).
-A date that is not already in the snapshot is added. A date that matches a
-snapshot row keeps the snapshot wording, and gains a tickets link when
-Bandsintown has one. If Bandsintown cannot be reached, the snapshot is still
-published.
-
-To refresh the snapshot, edit the file. For each show set `title` and `place`
-to the text that should appear, and `start` / `end` as `YYYY-MM-DD` (`end` is
-null for a single day). Put a row that must stay off the site in
-`unpublishedShows`, with `published: false` and a comment saying why. Do not
-add agreed fees or Ian's role.
+To refresh it, edit the snapshot. For each show set `title` and `place` to the
+text that should appear, and `start` / `end` as `YYYY-MM-DD` (`end` is null for
+a single day). Put a row that must stay off the site in `unpublishedShows`,
+with `published: false` and a comment saying why. Do not add agreed fees or
+Ian's role.
 
 The site lists a show only while its end date is today or later in the UK, using
 the date at build time, and shows a short empty state when nothing is left.
@@ -68,7 +62,6 @@ Run `npm run generate` after editing so the dates are baked into the HTML.
 
 ## Third-party pieces
 
-- **Bandsintown** - upcoming dates, fetched at generate time. Set `bandsintownArtistId`.
 - **Cal.com** - lesson booking, free plan. Set `calLink`.
 - **EmailOctopus** - mailing list. Set `emailOctopusListId`.
 - **Cloudflare Web Analytics** - set `cloudflareAnalyticsToken`, or leave blank for no script.

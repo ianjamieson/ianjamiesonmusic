@@ -25,13 +25,6 @@ useSeoMeta({
         ></iframe>
     </section>
 
-    <section id="shows" class="scroll-mt-24 space-y-5">
-        <h2 class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
-            Upcoming shows
-        </h2>
-        <UpcomingShows :limit="4" />
-    </section>
-
     <section class="flex flex-col items-center gap-4">
         <h2 class="text-center text-xs font-semibold uppercase tracking-[0.2em] text-white/50">
             Vinyl EP

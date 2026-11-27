@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       routes: ['/', '/404'],
-      // Write /live.html rather than /live/index.html so Cloudflare Pages serves
+      // Write /about.html rather than /about/index.html so Cloudflare Pages serves
       // the URL directly instead of 308-redirecting to a trailing slash.
       autoSubfolderIndex: false,
     },
