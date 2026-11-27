@@ -16,6 +16,12 @@ export const SITE = {
     calLink: 'ianjamieson/1-1-guitar-lesson',
     calNamespace: '1-1-guitar-lesson',
 
+    // Public Bandsintown artist. The id is the profile whose Spotify link is the
+    // artist above. The app id is what their public API requires; it is not a secret.
+    // Upcoming Shows is filled only from this profile.
+    bandsintownArtistId: '15601958',
+    bandsintownAppId: 'js_ianjamiesonmusic.co.uk',
+
     // Mailing list is disabled - the only thing that read this was the form in
     // SiteFooter.vue, which is commented out. Uncomment both to bring it back.
     // emailOctopusListId: 'YOUR-LIST-ID',

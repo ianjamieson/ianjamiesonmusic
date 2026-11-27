@@ -1,7 +1,13 @@
 <script setup>
 import { upcomingShows, formatShowDate, showDateTime } from '~/data/upcoming-shows.js'
 
-const shows = upcomingShows()
+// Generated with the page, then reused from the payload. The browser does not
+// call Bandsintown itself.
+const { data } = await useAsyncData('upcoming-shows', () => upcomingShows(), {
+    getCachedData: (key, nuxtApp) => nuxtApp.payload.data[key] ?? nuxtApp.static.data[key],
+})
+
+const shows = computed(() => data.value ?? [])
 </script>
 
 <template>
@@ -27,7 +33,16 @@ const shows = upcomingShows()
             </time>
             <div class="min-w-0">
                 <p class="text-white">{{ show.title }}</p>
-                <p v-if="show.place" class="text-sm text-white/50">{{ show.place }}</p>
+                <p v-if="show.place || show.tickets" class="text-sm text-white/50">
+                    <span v-if="show.place">{{ show.place }}</span>
+                    <a
+                        v-if="show.tickets"
+                        :href="show.tickets"
+                        class="text-white underline underline-offset-4 transition hover:text-white/70"
+                        :class="show.place ? 'ml-3' : ''"
+                        :aria-label="`Tickets for ${show.title}`"
+                    >Tickets</a>
+                </p>
             </div>
         </li>
     </ul>
