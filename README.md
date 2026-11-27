@@ -32,6 +32,7 @@ trash dist .output node_modules/.cache && npm run generate
 | What | Where |
 | --- | --- |
 | Site-wide settings, IDs and tokens | `app/utils/site.js` |
+| Upcoming Shows (Bandsintown) | `app/data/bandsintown.js` |
 | Header, nav and footer shell | `app/layouts/default.vue` |
 | Pages | `app/pages/` |
 | Prerendered 404 | `app/pages/404.vue` (written to `dist/404.html`) |
@@ -41,9 +42,19 @@ trash dist .output node_modules/.cache && npm run generate
 `app/utils/site.js` is the only file you should need for routine changes. Anything
 still marked `TODO` in there needs a real value.
 
+## Upcoming shows
+
+The Upcoming Shows page is filled only from the Bandsintown API, when the site
+is generated. Dates that are not on Bandsintown are not shown. The artist id
+is `bandsintownArtistId` in `app/utils/site.js`.
+
+A show stays listed while its end date is today or later in the UK, using the
+date at build time. If nothing is upcoming, the page shows a short empty state.
+Run `npm run generate` to publish a new set of dates.
+
 ## Third-party pieces
 
+- **Bandsintown** - the only source for Upcoming Shows. Set `bandsintownArtistId`.
 - **Cal.com** - lesson booking, free plan. Set `calLink`.
-- **Bandsintown** - live dates widget. Set `bandsintownArtist`.
 - **EmailOctopus** - mailing list. Set `emailOctopusListId`.
 - **Cloudflare Web Analytics** - set `cloudflareAnalyticsToken`, or leave blank for no script.

@@ -12,10 +12,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: true,
       routes: ['/', '/404'],
-      // Live page temporarily hidden. app/pages/live.vue is untouched - delete
-      // this line and uncomment the nav entry in app/layouts/default.vue to restore.
-      ignore: ['/live'],
-      // Write /live.html rather than /live/index.html so Cloudflare Pages serves
+      // Write /about.html rather than /about/index.html so Cloudflare Pages serves
       // the URL directly instead of 308-redirecting to a trailing slash.
       autoSubfolderIndex: false,
     },

@@ -16,9 +16,11 @@ export const SITE = {
     calLink: 'ianjamieson/1-1-guitar-lesson',
     calNamespace: '1-1-guitar-lesson',
 
-    // Only read by app/pages/live.vue, which is currently hidden from the build.
-    // Left in place so the Live page still works when you restore it.
-    bandsintownArtist: 'Ian Jamieson',
+    // Public Bandsintown artist. The id is the profile whose Spotify link is the
+    // artist above. The app id is what their public API requires; it is not a secret.
+    // Upcoming Shows is filled only from this profile.
+    bandsintownArtistId: '15601958',
+    bandsintownAppId: 'js_ianjamiesonmusic.co.uk',
 
     // Mailing list is disabled - the only thing that read this was the form in
     // SiteFooter.vue, which is commented out. Uncomment both to bring it back.
