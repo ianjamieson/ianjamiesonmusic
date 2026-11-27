@@ -1,7 +1,7 @@
 <script setup>
 const links = [
     { to: '/', label: 'Home' },
-    // { to: '/live', label: 'Live' },  // temporarily hidden - app/pages/live.vue still exists
+    { to: '/live', label: 'Live' },
     { to: '/about', label: 'About' },
     { to: '/book', label: 'Lessons' },
     { to: '/contact', label: 'Contact' },

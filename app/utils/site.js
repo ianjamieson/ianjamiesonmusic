@@ -16,8 +16,8 @@ export const SITE = {
     calLink: 'ianjamieson/1-1-guitar-lesson',
     calNamespace: '1-1-guitar-lesson',
 
-    // Only read by app/pages/live.vue, which is currently hidden from the build.
-    // Left in place so the Live page still works when you restore it.
+    // Unused. The Live page used to load a Bandsintown widget from this name.
+    // Dates now come from app/data/upcoming-shows.js.
     bandsintownArtist: 'Ian Jamieson',
 
     // Mailing list is disabled - the only thing that read this was the form in
