@@ -1,8 +1,11 @@
+import { fetchBandsintownShows } from './bandsintown.js'
+
 // Upcoming shows for ianjamiesonmusic.co.uk.
 //
 // Snapshot of Notion "Music Leads" (Status = Booked, Type = Festival or Gig),
-// taken 27 Nov 2026. This file is the source of truth. The site does not
-// fetch Notion. See the README for how to refresh it.
+// taken 27 Nov 2026. The site does not fetch Notion. See the README for how
+// to refresh it. On generate, upcomingShows() also reads the Bandsintown API
+// and adds any upcoming date that is not already in this snapshot.
 //
 // Rendered shows come from upcomingShows() only. A row is included when
 // `published` is not false and its end date (or start, if it has no end) is
@@ -11,7 +14,8 @@
 //
 // Rows that must stay off the site live in `unpublishedShows`
 // (`published: false`, with a comment saying why). Do not import that list
-// from a page.
+// from a page. A Bandsintown event on the same date is separate: it is shown
+// when the API names a venue.
 //
 // Never put agreed fees or Ian's role in this file. `notionName` is the
 // original Music Leads title, kept so the next refresh can be reconciled.
@@ -112,10 +116,12 @@ export const showsSnapshot = [
 ]
 
 // Kept in this file so a refresh does not add them back, and so the reason
-// stays next to the snapshot. `published: false` — do not render these.
+// stays next to the snapshot. `published: false` — do not render these rows.
 // No page imports this list. Leave it that way.
 export const unpublishedShows = [
-    // Do not publish: venue unclear (which Barley Mow / town).
+    // Do not publish this Notion row: the lead did not say which Barley Mow.
+    // Bandsintown names the venue as The Barley Mow, Portsmouth, and that
+    // listing is what the site shows.
     {
         notionName: 'Barley Mow Gig',
         title: 'Barley Mow',
@@ -124,7 +130,9 @@ export const unpublishedShows = [
         end: null,
         published: false,
     },
-    // Do not publish: venue unclear.
+    // Do not publish this Notion row: the lead did not name the venue.
+    // Bandsintown names it Gemini Church, Haslemere, and that listing is
+    // what the site shows.
     {
         notionName: 'Gemini Church Haslemere',
         title: 'Gemini Church Haslemere',
@@ -181,17 +189,65 @@ export function londonToday(now = new Date()) {
     }).format(now)
 }
 
-// Public list only: unpublished rows and shows that have already ended are removed.
-// Only display fields are returned, so notes on a row cannot leak into the page.
-export function upcomingShows(now = new Date()) {
-    const today = londonToday(now)
+function normalise(value) {
+    return (value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim()
+}
+
+function mentions(haystack, needle) {
+    return Boolean(haystack && needle && (haystack === needle || haystack.includes(needle) || needle.includes(haystack)))
+}
+
+// Same calendar day and the same venue or show name. Snapshot wording wins.
+function sameShow(snapshotShow, bandsintown) {
+    if (snapshotShow.start !== bandsintown.start) return false
+    const snapshotTitle = normalise(snapshotShow.title)
+    const bandsintownTitle = normalise(bandsintown.title)
+    return mentions(snapshotTitle, bandsintownTitle)
+        || mentions(snapshotTitle, normalise(bandsintown.place))
+        || mentions(normalise(snapshotShow.place), bandsintownTitle)
+}
+
+function snapshotShows() {
     return showsSnapshot
-        .filter((show) => show.published !== false && (show.end || show.start) >= today)
-        .sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title))
+        .filter(show => show.published !== false)
         .map(({ title, place, start, end }) => ({
             title,
             place: place || null,
             start,
             end: end || null,
+            tickets: null,
+        }))
+}
+
+// Public list only. Unpublished snapshot rows and shows that have already
+// ended are removed. Only display fields are returned.
+export async function upcomingShows(now = new Date()) {
+    const today = londonToday(now)
+    const shows = snapshotShows()
+
+    try {
+        const bandsintown = await fetchBandsintownShows()
+        for (const show of bandsintown) {
+            const existing = shows.find(row => sameShow(row, show))
+            if (existing) {
+                if (!existing.tickets && show.tickets) existing.tickets = show.tickets
+                if (!existing.place && show.place) existing.place = show.place
+                continue
+            }
+            shows.push(show)
+        }
+    } catch (error) {
+        console.warn(`[shows] Bandsintown request failed: ${error?.message || error}`)
+    }
+
+    return shows
+        .filter(show => (show.end || show.start) >= today)
+        .sort((a, b) => a.start.localeCompare(b.start) || a.title.localeCompare(b.title))
+        .map(({ title, place, start, end, tickets }) => ({
+            title,
+            place: place || null,
+            start,
+            end: end || null,
+            tickets: tickets || null,
         }))
 }

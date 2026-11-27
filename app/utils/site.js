@@ -16,9 +16,11 @@ export const SITE = {
     calLink: 'ianjamieson/1-1-guitar-lesson',
     calNamespace: '1-1-guitar-lesson',
 
-    // Unused. The Live page used to load a Bandsintown widget from this name.
-    // Dates now come from app/data/upcoming-shows.js.
+    // Public Bandsintown artist. The id is the one whose Spotify link is the
+    // artist above. The app id is what their public API requires; it is not a secret.
     bandsintownArtist: 'Ian Jamieson',
+    bandsintownArtistId: '15601958',
+    bandsintownAppId: 'js_ianjamiesonmusic.co.uk',
 
     // Mailing list is disabled - the only thing that read this was the form in
     // SiteFooter.vue, which is commented out. Uncomment both to bring it back.
